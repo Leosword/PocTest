@@ -1,15 +1,18 @@
 package com.example.demo.model;
 
+
 import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +21,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity 
-
+@Service 
+@Repository
 
 public class UsuarioModel {
 	
@@ -55,7 +59,7 @@ public class UsuarioModel {
 	@Column(name = "telefone")
 	private String telefone;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(targetEntity = ContaModel.class)
 	@JoinColumn(name ="conta_idconta")
 	private Long usuarioIdConta;
 	

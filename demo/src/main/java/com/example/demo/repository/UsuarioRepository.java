@@ -1,5 +1,4 @@
 package com.example.demo.repository;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
