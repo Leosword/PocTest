@@ -5,10 +5,12 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Repository;
@@ -59,9 +61,12 @@ public class UsuarioModel {
 	@Column(name = "telefone")
 	private String telefone;
 	
-	@OneToOne(targetEntity = ContaModel.class)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="conta_idconta")
-	private Long usuarioIdConta;
+	private ContaModel contaModel;
 	
-		
+//	@OneToMany(fetch = FetchType.LAZY)
+//	@JoinColumn(name ="conta_idconta")
+//	private Transacoes transacoes;
+//		
 }

@@ -1,20 +1,21 @@
 package com.example.demo.model;
 
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 public class ProdutoModel {
 
-	@ManyToOne(targetEntity = TipoContaModel .class)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="Tipo_De_Conta_idTipo_De_Conta")
-	private Long idTipoConta;
+	private TipoContaModel tipoContaModel;
 			
-	@ManyToOne(targetEntity = ContaModel.class)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="Tipo_De_Conta_conta_idconta")
-	private Long idConta;
+	private ContaModel contaModel;
 	
-	@ManyToOne(targetEntity = TipoDeProdutoModel.class)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="Produtos_idProtudos")
-	private Long idProduto;
+	private ProdutoModel produtoModel;
 						
 }
