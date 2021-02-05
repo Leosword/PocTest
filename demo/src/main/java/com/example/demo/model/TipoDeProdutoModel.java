@@ -1,13 +1,13 @@
 package com.example.demo.model;
 
-
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,15 +15,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity 
+@Service 
+@Repository
 
+public class TipoDeProdutoModel {	
 
-public class ContaModel {
 	@Id @GeneratedValue(strategy=GenerationType.AUTO) 
- 	private Long  idConta;	
+ 	private Long  idProduto;
+
+	@Column(name="name", nullable = false)
+	private String nome;
 	
-	@Column (name="saldo", nullable = false)
-	private BigDecimal saldo;
-	
-	@Column (name="extrato")
-	private BigDecimal extrato;
+
+
 }
+
+
