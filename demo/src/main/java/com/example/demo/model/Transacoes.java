@@ -31,16 +31,19 @@ public class Transacoes {
 	
 	@Column(name="dataTransacao",nullable=false)
 	private Date dataTransacao;
-	
-	@Column(name="Beneficiado",nullable=false)
-	private String beneficiario;
-	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name="idUsuario")
-//	private UsuarioModel usuarioModel;
 //	
-//
+//	@Column(name="Beneficiado",nullable=false)
+//	private String beneficiario;
 //	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="idUsuario")
+	private UsuarioModel usuarioModel ;
+	private Long beneficiario;
+	
+	
+
+
 	
 	
 	
