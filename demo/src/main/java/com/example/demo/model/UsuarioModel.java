@@ -23,8 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity 
-@Service 
-@Repository
+
 
 public class UsuarioModel {
 	
