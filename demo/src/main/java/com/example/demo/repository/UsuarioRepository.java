@@ -9,6 +9,6 @@ import com.example.demo.model.UsuarioModel;
 @Repository
 public interface UsuarioRepository extends JpaRepository<UsuarioModel, String> {
 
-	@Query("")
-	UsuarioModel obterTodos();
+//	@Query("")
+//	UsuarioModel obterTodos();
 }
