@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: vaicorinthians
+    url: jdbc:mysql://localhost:3306/db_banco?useTimezone=true&serverTimezone=UTC
+    username: vinicius
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
