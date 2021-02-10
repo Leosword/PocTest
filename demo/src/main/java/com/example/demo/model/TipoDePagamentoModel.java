@@ -15,7 +15,7 @@ import lombok.Setter;
 @Entity
 
 
-public class TipoDePagamento {
+public class TipoDePagamentoModel {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idTipoDePamento;
 	

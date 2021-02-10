@@ -18,7 +18,7 @@ import lombok.Setter;
 @Entity
 
 
-public class TipoTransacao {
+public class TipoTransacaoModel {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long iddTipoTransacao;
 	
@@ -28,5 +28,5 @@ public class TipoTransacao {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idTipo_De_Pagamento")
-	private TipoDePagamento idTipoDePagamento;
+	private TipoDePagamentoModel idTipoDePagamento;
 }
