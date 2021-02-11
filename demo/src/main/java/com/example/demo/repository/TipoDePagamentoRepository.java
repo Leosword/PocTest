@@ -10,8 +10,5 @@ import com.example.demo.model.TipoDePagamentoModel;
 
 @Repository
 public interface TipoDePagamentoRepository extends JpaRepository<TipoDePagamentoModel, String>{
-//	@Modifying
-//	@Query("INSERT INTO TipoDePagamentoModel(nome, qtdePagamento) VALUES(:nome, :qtdePagamento )")
-//	TipoDePagamentoModel AddPagamento(@Param("idTipoDePamento") Long idTipoDePamento,@Param("nome") String nome ,@Param("qtdePagamento") String qtdePagamento);
-//	
+
 }

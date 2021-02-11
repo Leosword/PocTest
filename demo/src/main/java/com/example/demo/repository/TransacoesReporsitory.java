@@ -29,15 +29,17 @@ public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, St
 	
 	
 	
-	//Transações por Data
+
 	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um WHERE t.dataTransacao = :dataTransacao")
 	List<TransacoesModel> obterTrasacoesPorData(@Param("dataTransacao") Date dataTransacao);
-		
+	
+	
+	
 	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um WHERE t.dataTransacao BETWEEN :dataInicial and :dataFinal")
 	List<TransacoesModel> obterTrasacoesPorPeriodo(@Param("dataInicial") Date dataInicial, @Param("dataFinal") Date dataFinal);
 	
 	
-	//Transações por valor	
+	
 	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um WHERE t.valorTransacao = :valorTransacao")
 	List<TransacoesModel> obterTrasacoesPorValorEspecifico(@Param("valorTransacao") BigDecimal valorTransacao);
 	
@@ -50,7 +52,7 @@ public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, St
 	
 	
 	
-	//Transações por valor	e data
+
 	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um WHERE t.dataTransacao = :dataTransacao and t.valorTransacao = :valorTransacao ")
 	List<TransacoesModel> obterTrasacoesPorDataValor(@Param("dataTransacao") Date dataTransacao, @Param("valorTransacao") BigDecimal valorTransacao);
 	
@@ -61,4 +63,20 @@ public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, St
 	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um WHERE t.valorTransacao <= :valorTransacao and t.dataTransacao BETWEEN :dataInicial and :dataFinal")
 	List<TransacoesModel> obterTrasacoesEntreDataValorMenor(@Param("dataInicial") Date dataInicial, @Param("dataFinal") Date dataFinal, @Param("valorTransacao") BigDecimal valorTransacao);
 	
+	
+	//Transações por tipo de transacao
+	
+	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um "
+			+ "Inner Join  fetch t.tipdeDeTransacaoModel tt WHERE tt.idTipoTransacao = :idTipoTransacao ")
+	List<TransacoesModel> obterPorTipoTransacao(@Param("idTipoTransacao") Long idTipoTransacao);
+	
+//	
+//	@Query ("SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um"
+//			+"Inner Join t.TransacoesModel tt"
+//			+"Inner Join tt.TipoDePagamentoModel tp WHERE tp.qtdePagamento == 1"
+//			)
+//	List<TransacoesModel> obterTransacoesAvista(@Param("qtdePagamento") String qtdePagamento);
+//	
+//	
+
 }

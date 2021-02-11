@@ -37,6 +37,11 @@ public class TransacoesModel {
 	private UsuarioModel usuarioModel ;
 	private Long beneficiario;
 	
+	@ManyToOne(fetch= FetchType.LAZY)
+	@JoinColumn(name="idTipoTransacao")
+	private TipoTransacaoModel tipdeDeTransacaoModel;
+	
+	
 	
 	
 	
