@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 
-public class Auditoria {
+public class AuditoriaModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
