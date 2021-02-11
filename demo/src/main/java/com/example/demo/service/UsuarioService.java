@@ -8,4 +8,9 @@ public interface UsuarioService {
 	
 	List<UsuarioModel> obterTodos();
 
+	List<UsuarioModel>obterPorEstado();
+
+	List<UsuarioModel> obterContaETipoPorNome();	
+	
+	List<UsuarioModel> obterTudo();
 }

@@ -17,4 +17,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public List<UsuarioModel> obterTodos() {
 		return usuarioRepository.findAll();
 	}
+	
+	
+	public List<UsuarioModel> obterPorEstado(){
+		return usuarioRepository.findAll();
+	}
+
+	public List<UsuarioModel> obterContaETipoPorNome(){
+		return usuarioRepository.findAll();
+	}
+
+	public List<UsuarioModel> obterTudo(){
+		return usuarioRepository.findAll();
+	}
+
 }

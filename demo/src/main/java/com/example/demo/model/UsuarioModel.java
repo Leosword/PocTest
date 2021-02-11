@@ -1,7 +1,8 @@
 package com.example.demo.model;
 
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +24,7 @@ import lombok.Setter;
 
 public class UsuarioModel {
 	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO) 
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) 
  	private Long  idUsuario;
 	
 	@Column(name = "nome", nullable = false)
@@ -37,13 +34,13 @@ public class UsuarioModel {
 	private Date dtaDeNascimento;
 	
 	@Column(name = "RG", nullable = false)
-	private Integer rg;
+	private String rg;
 
 	@Column(name = "CPF", nullable = false)
-	private Integer cpf;
+	private String cpf;
 	
 	@Column(name = "CEP", nullable = false)
-	private Integer cep;
+	private String cep;
 	
 	@Column(name = "Endereco", nullable = false)
 	private String endereco;
@@ -63,9 +60,5 @@ public class UsuarioModel {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="conta_idconta")
 	private ContaModel contaModel;
-	
-//	@OneToMany(fetch = FetchType.LAZY)
-//	@JoinColumn(name ="conta_idconta")
-//	private Transacoes transacoes;
-//		
+
 }

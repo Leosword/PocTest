@@ -17,10 +17,11 @@ import lombok.Setter;
 
 public class TipoContaModel {
 
-		@Id @GeneratedValue(strategy=GenerationType.AUTO) 
+		@Id @GeneratedValue(strategy=GenerationType.IDENTITY) 
 	 	private Long  idTipoConta;	
 
 		@Column(name="nome", nullable = false)
 		private String nome;
+		
 	}
 

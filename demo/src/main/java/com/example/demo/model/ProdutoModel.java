@@ -9,13 +9,9 @@ public class ProdutoModel {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="Tipo_De_Conta_idTipo_De_Conta")
 	private TipoContaModel tipoContaModel;
-			
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="Tipo_De_Conta_conta_idconta")
-	private ContaModel contaModel;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="Produtos_idProtudos")
-	private ProdutoModel produtoModel;
-						
+	@JoinColumn(name ="Tipo_De_Produto_idProduto")
+	private TipoDeProdutoModel tipoDeProdutoModel;
+							
 }
