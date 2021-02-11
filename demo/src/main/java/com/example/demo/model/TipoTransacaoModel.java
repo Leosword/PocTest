@@ -20,7 +20,7 @@ import lombok.Setter;
 
 public class TipoTransacaoModel {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long iddTipoTransacao;
+	private Long idTipoTransacao;
 	
 	
 	@Column(name="Nome",nullable=false)
