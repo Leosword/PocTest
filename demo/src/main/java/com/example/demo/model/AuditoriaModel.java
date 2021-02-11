@@ -37,8 +37,8 @@ public class AuditoriaModel {
 	@Column(name = "valor", nullable = false)
 	private BigDecimal valor;
 
-	@Column(name = "valorAnterior", nullable = false)
-	private BigDecimal valorAnterior;
+//	@Column(name = "valorAnterior", nullable = false)
+//	private BigDecimal valorAnterior;
 
 	@Column(name = "novovalor", nullable = false)
 	private BigDecimal novoValor;
