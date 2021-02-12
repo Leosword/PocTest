@@ -13,10 +13,12 @@ import com.example.demo.model.TipoContaModel;
 
 public interface TipoContaRepository extends JpaRepository<TipoContaModel, String>{
 
-//	@Query("SELECT tc FROM TipoConta tc inner join ContaModel c  WHERE tc.idTipoConta = :idTipoConta")
-//	TipoContaModel obterTipoContaPorId(@Param("idTipoConta") Long idTipoConta);
+	@Query("SELECT tc FROM TipoContaModel tc INNER JOIN  UsuarioModel u INNER JOIN ContaModel c INNER JOIN TipoDeProdutoModel tp "
+			+ "WHERE tc.idTipoConta = :idTipoConta")
+	TipoContaModel obterTipoContaPorId(@Param("idTipoConta") Long idTipoConta);
 
-//	@Query("SELECT tc FROM TipoConta tc inner join ContaModel c WHERE tc.nome = :nome")
-//	List<TipoContaModel> obterTipoContaPorNome(@Param("nome") String nome);
+	@Query("SELECT tc FROM TipoContaModel tc INNER JOIN ContaModel c INNER JOIN UsuarioModel u INNER JOIN TipoDeProdutoModel tp "
+			+ "WHERE tc.nome = :nome")
+	List<TipoContaModel> obterTipoContaPorNome(@Param("nome") String nome);
 
 }

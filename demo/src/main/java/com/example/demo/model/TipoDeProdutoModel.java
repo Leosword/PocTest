@@ -22,7 +22,7 @@ public class TipoDeProdutoModel {
 	@Id @GeneratedValue(strategy=GenerationType.AUTO) 
  	private Long  idProduto;
 
-	@Column(name="name", nullable = false)
+	@Column(name="nome", nullable = false)
 	private String nome;
 	
 
