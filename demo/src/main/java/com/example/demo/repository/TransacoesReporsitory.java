@@ -18,6 +18,9 @@ public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, St
 	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um WHERE um.nome = :nome")
 	List<TransacoesModel> obterTrasacoesUsuario(@Param("nome") String nome);
 	
+	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um WHERE um.idUsuario = :idUsuario")
+	List<TransacoesModel> obterTrasacoesIdUsuario(@Param("idUsuario") Long idUsuario);
+	
 	
 	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um WHERE t.beneficiario = :beneficiario")
 	List<TransacoesModel> obterTrasacoesbeneficiado(@Param("beneficiario") Long beneficiario);
