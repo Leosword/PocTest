@@ -6,11 +6,25 @@ import com.example.demo.model.UsuarioModel;
 
 public interface UsuarioService {
 	
-	List<UsuarioModel> obterTodos();	
+	List<UsuarioModel> obterTodos();
+
+	public UsuarioModel obterPorNome(String nome);
+
+	public UsuarioModel obterUsuarioPorCPF(String cpf);
+
+	public UsuarioModel obterUsuarioPorRG(String tg);
+
+	public List<UsuarioModel> obterPorEstado(String estado);
 	
-	void salvarUsuario(UsuarioModel idUsuario);
+	public UsuarioModel obterPorID(Long idUsuario);
+	
+	UsuarioModel salvarUsuario(UsuarioModel idUsuario);
 	
 	void deletarUsuario(UsuarioModel idUsuario);
+
+	
+	
+
 	
 
 	
