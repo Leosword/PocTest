@@ -27,5 +27,4 @@ public interface UsuarioRepository extends JpaRepository<UsuarioModel, String> {
 	
 	@Query("SELECT um FROM UsuarioModel um INNER JOIN fetch um.contaModel c WHERE um.idUsuario = :idUsuario")
 	UsuarioModel ObterUsuarioEContaPorID(@Param("idUsuario") Long idUsuario);
-
 }

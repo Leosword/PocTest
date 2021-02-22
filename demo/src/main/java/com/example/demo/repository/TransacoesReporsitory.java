@@ -14,7 +14,7 @@ import com.example.demo.model.TransacoesModel;
 public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, String> {
 	
 	
-	// Transações por usuarios
+	
 	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um WHERE um.nome = :nome")
 	List<TransacoesModel> obterTrasacoesUsuario(@Param("nome") String nome);
 	
@@ -64,19 +64,23 @@ public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, St
 	List<TransacoesModel> obterTrasacoesEntreDataValorMenor(@Param("dataInicial") Date dataInicial, @Param("dataFinal") Date dataFinal, @Param("valorTransacao") BigDecimal valorTransacao);
 	
 	
-	//Transações por tipo de transacao
-	
-	@Query("SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um "
-			+ "Inner Join  fetch t.tipdeDeTransacaoModel tt WHERE tt.idTipoTransacao = :idTipoTransacao ")
+	@Query(" SELECT t FROM TransacoesModel t Inner Join Fetch t.usuarioModel um "
+			+ " Inner Join  fetch t.tipdeDeTransacaoModel tt WHERE tt.idTipoTransacao = :idTipoTransacao ")
 	List<TransacoesModel> obterPorTipoTransacao(@Param("idTipoTransacao") Long idTipoTransacao);
 	
-//	
-//	@Query ("SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um"
-//			+"Inner Join t.TransacoesModel tt"
-//			+"Inner Join tt.TipoDePagamentoModel tp WHERE tp.qtdePagamento == 1"
-//			)
-//	List<TransacoesModel> obterTransacoesAvista(@Param("qtdePagamento") String qtdePagamento);
-//	
-//	
+	
+	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
+			+" Inner Join t.tipdeDeTransacaoModel tt "
+			+" Inner Join tt.idTipoDePagamento tp WHERE tp.qtdePagamento = 1 "
+			)
+	List<TransacoesModel> obterTransacoesAvista(@Param("qtdePagamento") String qtdePagamento);
+	
+	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
+			+" Inner Join t.tipdeDeTransacaoModel tt "
+			+" Inner Join tt.idTipoDePagamento tp WHERE tp.qtdePagamento > 1 "
+			)
+	List<TransacoesModel> obterTransacoesPrazo(@Param("qtdePagamento") String qtdePagamento);
+	
+	
 
 }

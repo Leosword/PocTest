@@ -32,25 +32,15 @@ public class TransacoesModel {
 	@Column(name="dataTransacao",nullable=false)
 	private Date dataTransacao;
 	
+	@Column(name="Beneficiario",nullable = false)
+	private String beneficiario;
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idUsuario")
-	private UsuarioModel usuarioModel ;
-	private Long beneficiario;
-	
+	private UsuarioModel usuarioModel;
+
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="idTipoTransacao")
 	private TipoTransacaoModel tipdeDeTransacaoModel;
-	
-	
-	
-	
-	
-
-
-	
-	
-	
-	
-	
-
 }
