@@ -6,11 +6,12 @@ import com.example.demo.model.UsuarioModel;
 
 public interface UsuarioService {
 	
-	List<UsuarioModel> obterTodos();
-
-	List<UsuarioModel>obterPorEstado();
-
-	List<UsuarioModel> obterContaETipoPorNome();	
+	List<UsuarioModel> obterTodos();	
 	
-	List<UsuarioModel> obterTudo();
+	void salvarUsuario(UsuarioModel idUsuario);
+	
+	void deletarUsuario(UsuarioModel idUsuario);
+	
+
+	
 }

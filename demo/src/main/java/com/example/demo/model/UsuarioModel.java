@@ -61,4 +61,6 @@ public class UsuarioModel {
 	@JoinColumn(name ="conta_idconta")
 	private ContaModel contaModel;
 
+	
+
 }
