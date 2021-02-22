@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.example.demo.enums.TipoDeTransacoesEnums;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,4 +31,10 @@ public class TipoTransacaoModel {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idTipo_De_Pagamento")
 	private TipoDePagamentoModel idTipoDePagamento;
+	
+	public TipoTransacaoModel criarTipoTransacao(String nome, TipoDePagamentoModel idTipoDePagamento) {
+		this.nome = nome;
+		this.idTipoDePagamento = idTipoDePagamento;
+		return this;
+	}
 }

@@ -85,5 +85,7 @@ public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, St
 	List<TransacoesModel> obterTransacoesPrazo(@Param("qtdePagamento") String qtdePagamento);
 	
 	
+	
+	
 
 }

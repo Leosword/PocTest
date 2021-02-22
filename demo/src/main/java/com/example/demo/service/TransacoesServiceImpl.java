@@ -5,9 +5,16 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.enums.TipoDePagamentoEnums;
+import com.example.demo.enums.TipoDeTransacoesEnums;
+import com.example.demo.model.TipoDePagamentoModel;
+import com.example.demo.model.TipoTransacaoModel;
 import com.example.demo.model.TransacoesModel;
+import com.example.demo.model.UsuarioModel;
+import com.example.demo.repository.ContaRepository;
 import com.example.demo.repository.TransacoesReporsitory;
 import com.example.demo.repository.UsuarioRepository;
 
@@ -19,6 +26,7 @@ public class TransacoesServiceImpl implements TransacoesService {
 	private TransacoesReporsitory transacoesRepository;
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+
 	
 	public List<TransacoesModel> obterTrasacoesUsuario(String nome){
 		return transacoesRepository.obterTrasacoesUsuario(nome);
@@ -65,8 +73,35 @@ public class TransacoesServiceImpl implements TransacoesService {
 	public List<TransacoesModel> obterTransacoesPrazo(String qtdePagamento){
 		return transacoesRepository.obterTransacoesPrazo(qtdePagamento);
 	}
-		
 	
 	
 
+	public void deposito(String nome, String beneficiario, BigDecimal valorTransacao) {
+
+		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(beneficiario);
+		TransacoesModel transacoesModel = new TransacoesModel();
+		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
+		TipoDePagamentoModel tipoDePagamentoModel = new TipoDePagamentoModel();
+		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome(), "1");
+		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.DEPOSITO.getNome(), tipoDePagamentoModel);
+	
+			TransacoesModel verificaBeneficiado = verificaBeneficiado(valorTransacao, usuarioModel, transacoesModel, tipoTransacaoModel, nome);
+			BigDecimal saldoAtual = usuarioModel.getContaModel().getSaldo();
+			usuarioModel.getContaModel().setSaldo(saldoAtual.add(valorTransacao));
+			usuarioRepository.save(usuarioModel);
+			transacoesRepository.save(verificaBeneficiado);
+	}
+
+	private TransacoesModel verificaBeneficiado(BigDecimal valorTransacao, UsuarioModel beneficiado,
+			TransacoesModel transacoesModel, TipoTransacaoModel tipoTransacaoModel, String nome) {
+
+		if (beneficiado.getNome().equals(nome)) {
+			return transacoesModel.criaNovaTransacao(valorTransacao, new Date(), beneficiado.getNome(), beneficiado,
+					tipoTransacaoModel);
+
+		}
+		return transacoesModel.criaNovaTransacao(valorTransacao, new Date(), nome, beneficiado, tipoTransacaoModel);
+
+	}
+	
 }

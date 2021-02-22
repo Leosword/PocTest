@@ -1,8 +1,11 @@
 package com.example.demo.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum TipoDeTransacoesEnums {
 	
-	DEPOSITO(1), PAGAMENTO(2), TRANSFERENCIA(3), EMPRESTIMO(4);
+	DEPOSITO(1, "Deposito"), PAGAMENTO(2, "Pagamento"), TRANSFERENCIA(3,"Transferencia");
 	
 
 
@@ -15,13 +18,11 @@ public enum TipoDeTransacoesEnums {
 	}
 
 	Integer id;
+	String nome;
 
-	public Integer getId() {
-		return id;
-	}
-
-	TipoDeTransacoesEnums(Integer id) {
+	TipoDeTransacoesEnums(Integer id, String nome) {
 		this.id = id;
+		this.nome = nome;
 	}
 
 }

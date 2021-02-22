@@ -26,4 +26,10 @@ public class TipoDePagamentoModel {
 	@Column(name="qtdePagamento",nullable=false)
 	private String qtdePagamento;
 	
+	
+	public TipoDePagamentoModel criarTipoPagamento(String nome, String qtdepagamento) {
+		this.nome = nome;
+		this.qtdePagamento = qtdepagamento;
+		return this;
+	}
 }

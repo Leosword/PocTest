@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,4 +43,15 @@ public class TransacoesModel {
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="idTipoTransacao")
 	private TipoTransacaoModel tipdeDeTransacaoModel;
+	
+	public TransacoesModel criaNovaTransacao(BigDecimal valorTransacao, Date dataTransacao, String beneficiario, UsuarioModel usuarioModel, TipoTransacaoModel tipdeDeTransacaoModel) {
+		this.valorTransacao = valorTransacao;
+		this.dataTransacao = dataTransacao;
+		this.beneficiario = beneficiario;
+		this.usuarioModel = usuarioModel;
+		this.tipdeDeTransacaoModel = tipdeDeTransacaoModel;
+		return this;
+	}
+
+
 }

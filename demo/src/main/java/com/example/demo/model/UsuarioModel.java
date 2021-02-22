@@ -16,12 +16,9 @@ import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
-
-@Getter
 @Setter
+@Getter
 @Entity 
-
-
 public class UsuarioModel {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) 
