@@ -27,62 +27,13 @@ public class TransacoesServiceImpl implements TransacoesService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	
-	public List<TransacoesModel> obterTrasacoesUsuario(String nome){
-		return transacoesRepository.obterTrasacoesUsuario(nome);
-	}
-	public List<TransacoesModel> obterTrasacoesIdUsuario(Long idUsuario){
-		return transacoesRepository.obterTrasacoesIdUsuario(idUsuario);
-	}
-	public List<TransacoesModel> obterTrasacoesbeneficiado(Long idUsuario){
-		return transacoesRepository.obterTrasacoesbeneficiado(idUsuario);
-	}
-	public List<TransacoesModel> obterTrasacoesUsuarioData(Date dataTransacao, String nome){
-		return transacoesRepository.obterTrasacoesUsuarioData(dataTransacao, nome);
-	}
-	public List<TransacoesModel> obterTrasacoesPorData(Date dataTransacao){
-		return transacoesRepository.obterTrasacoesPorData(dataTransacao);
-	}
-	public List<TransacoesModel> obterTrasacoesPorPeriodo(Date dataInicial, Date dataFinal){
-		return transacoesRepository.obterTrasacoesPorPeriodo(dataInicial, dataFinal);
-	}
-	public List<TransacoesModel> obterTrasacoesPorValorEspecifico(BigDecimal valorTransacao){
-		return transacoesRepository.obterTrasacoesPorValorEspecifico(valorTransacao);
-	}
-	public List<TransacoesModel> obterTrasacoesPorValorMenor(BigDecimal valorTransacao){
-		return transacoesRepository.obterTrasacoesPorValorMenor(valorTransacao);
-	}
-	public List<TransacoesModel> obterTrasacoesPorValorMaior(BigDecimal valorTransacao){
-		return transacoesRepository.obterTrasacoesPorValorMaior(valorTransacao);
-	}
-	public List<TransacoesModel> obterTrasacoesPorDataValor(Date dataTransacao, BigDecimal valorTransacao){
-		return transacoesRepository.obterTrasacoesPorDataValor(dataTransacao, valorTransacao);
-	}
-	public List<TransacoesModel> obterTrasacoesEntreDataValorMenor(Date datainicial, Date dataFinal, BigDecimal valorTransacao){
-		return transacoesRepository.obterTrasacoesEntreDataValorMenor(datainicial, dataFinal, valorTransacao);
-	}
-	public List<TransacoesModel> obterTrasacoesEntreDataValorMaior(Date datainicial, Date dataFinal, BigDecimal valorTransacao){
-		return transacoesRepository.obterTrasacoesEntreDataValorMenor(datainicial, dataFinal, valorTransacao);
-	}
-	public List<TransacoesModel> obterPorTipoTransacao(Long idTipoTransacao){
-		return transacoesRepository.obterPorTipoTransacao(idTipoTransacao);
-	}
-	public List<TransacoesModel> obterTransacoesAvista(String qtdePagamento){
-		return transacoesRepository.obterTransacoesAvista(qtdePagamento);
-	}
-	public List<TransacoesModel> obterTransacoesPrazo(String qtdePagamento){
-		return transacoesRepository.obterTransacoesPrazo(qtdePagamento);
-	}
-	
-	
-
 	public void deposito(String nome, String beneficiario, BigDecimal valorTransacao) {
 
 		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(beneficiario);
 		TransacoesModel transacoesModel = new TransacoesModel();
 		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
 		TipoDePagamentoModel tipoDePagamentoModel = new TipoDePagamentoModel();
-		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome(), "1");
+		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome(), 1);
 		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.DEPOSITO.getNome(), tipoDePagamentoModel);
 	
 			TransacoesModel verificaBeneficiado = verificaBeneficiado(valorTransacao, usuarioModel, transacoesModel, tipoTransacaoModel, nome);
@@ -91,8 +42,48 @@ public class TransacoesServiceImpl implements TransacoesService {
 			usuarioRepository.save(usuarioModel);
 			transacoesRepository.save(verificaBeneficiado);
 	}
+	
+	public void transferencia(String nome, String beneficiario, BigDecimal valortransacao, Integer qtdepagamento) {
+		
+		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(nome);
+		UsuarioModel beneficiado = usuarioRepository.obterPorNome(beneficiario);
+		TransacoesModel transacoesModel = new TransacoesModel();
+		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
+		TipoDePagamentoModel tipoDePagamentoModel = new TipoDePagamentoModel();
+		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome(), 1);
+		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.TRANSFERENCIA.getNome(), tipoDePagamentoModel);	
+		
+		Boolean verificaSaldo = verificaSaldo(nome, valortransacao);
+		
+		TransacoesModel verificaBeneficiado = verificaBeneficiado(valortransacao, usuarioModel, transacoesModel, tipoTransacaoModel, nome);
+		
+		if(verificaSaldo.equals(true)) {
+			beneficiado.getContaModel().setSaldo(valortransacao);
+			BigDecimal subtract = usuarioModel.getContaModel().getSaldo().subtract(valortransacao);
+			usuarioModel.getContaModel().setSaldo(subtract);
+		}
+		System.out.println("Sem saldo Suficiente!");
+		
+		usuarioRepository.save(usuarioModel);
+		usuarioRepository.save(beneficiado);
+		transacoesRepository.save(verificaBeneficiado);
+		
+		
+	}
+	
+	
 
-	private TransacoesModel verificaBeneficiado(BigDecimal valorTransacao, UsuarioModel beneficiado,
+
+	public Boolean verificaSaldo(String nome, BigDecimal valortransacao) {
+		
+		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(nome);
+		if(valortransacao.compareTo(usuarioModel.getContaModel().getSaldo())<=0) {
+			return true;
+		}
+		return false;
+	}
+
+	public TransacoesModel verificaBeneficiado(BigDecimal valorTransacao, UsuarioModel beneficiado,
 			TransacoesModel transacoesModel, TipoTransacaoModel tipoTransacaoModel, String nome) {
 
 		if (beneficiado.getNome().equals(nome)) {
@@ -103,5 +94,6 @@ public class TransacoesServiceImpl implements TransacoesService {
 		return transacoesModel.criaNovaTransacao(valorTransacao, new Date(), nome, beneficiado, tipoTransacaoModel);
 
 	}
+	
 	
 }
