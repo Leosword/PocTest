@@ -4,7 +4,6 @@ import lombok.Getter;
 
 
 @Getter
-
 public enum TipoDePagamentoEnums {
 	AVISTA(1, "Avista"), PARCELADO(2, "Parcelado");
 

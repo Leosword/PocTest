@@ -1,10 +1,17 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.enums.TipoDePagamentoEnums;
+import com.example.demo.enums.TipoDeTransacoesEnums;
+import com.example.demo.model.TipoDePagamentoModel;
+import com.example.demo.model.TipoTransacaoModel;
+import com.example.demo.model.TransacoesModel;
 import com.example.demo.model.UsuarioModel;
 import com.example.demo.repository.UsuarioRepository;
 
@@ -50,12 +57,22 @@ public class UsuarioServiceImpl implements UsuarioService{
 		usuarioRepository.delete(idUsuario);
 		
 	}
-
 	
 	
-
-
-
-
-
+	public UsuarioModel atualizarUsuario(UsuarioModel usuarioModelTela) {
+			UsuarioModel usuarioModel = usuarioRepository.obterPorID(usuarioModelTela.getIdUsuario());
+			if(usuarioModel.getIdUsuario() == null) {
+				System.out.println("Id não encontrado");
+			}
+			
+			else if(!usuarioModel.equals(usuarioModelTela) ) {
+				return usuarioRepository.save(usuarioModelTela);
+			}
+			
+			return usuarioModel;
+		}
+	
+	
+	
+	
 }
