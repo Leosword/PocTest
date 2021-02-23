@@ -40,6 +40,6 @@ public class ContaModel {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="Tipo_De_Conta_idTipo_De_Conta")
 	private TipoContaModel tipoContaModel;
-
+	
 	
 }

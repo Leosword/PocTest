@@ -20,7 +20,7 @@ public interface AuditoriaRepository extends JpaRepository<AuditoriaModel, Strin
 	AuditoriaModel obterPorAcao(@Param("acao")String acao);
 	
 	//Auditoria para tipo de acao e data.
-	@Query("SELECT a FROM AuditoriaModel a Inner Join fetch a.usuarioModel um WHERE a.acao = :acao and a.data = :data ")
+	@Query("SELECT a FROM AuditoriaModel a Inner Join fetch a.usuarioModel um WHERE a.acao = :acao and a.data = :data")
 	List<AuditoriaModel> obterPorAcaoData(@Param("acao")String acao,@Param("data")Date data);
 	
 	//Auditoria para valor e data.
