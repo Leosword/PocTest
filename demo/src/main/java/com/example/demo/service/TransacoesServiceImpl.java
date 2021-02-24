@@ -92,12 +92,12 @@ public class TransacoesServiceImpl implements TransacoesService {
 
 	}
 
-		
+	
 	public List<TransacoesModel> extrato(Long idUsuario, Date periodoInicial, Date periodoFinal){
 		
 		List<TransacoesModel> obterTrasacoesPorUsuarioPeriodo = transacoesRepository.obterTrasacoesPorUsuarioPeriodo(idUsuario, periodoInicial, periodoFinal);
 		
-		return obterTrasacoesPorUsuarioPeriodo;
+		return obterTrasacoesPorUsuarioPeriodo; 
 	
 	}
 	

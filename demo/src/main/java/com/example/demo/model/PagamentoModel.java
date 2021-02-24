@@ -32,12 +32,4 @@ public class PagamentoModel {
 
 	@Column(name = "dataPag", nullable = false)
 	private Date dataPag;
-		
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="conta_idconta")
-	private ContaModel contaModel;
-	
-//	@OneToMany(fetch = FetchType.LAZY)
-//	@JoinColumn(name ="idTipoDePamentoIdPagamento")
-//	private TipoDePagamentoModel tipoDePagamentoModel;
 }

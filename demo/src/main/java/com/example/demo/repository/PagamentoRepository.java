@@ -14,11 +14,6 @@ import com.example.demo.model.PagamentoModel;
 @Repository
 public interface PagamentoRepository extends JpaRepository<PagamentoModel, String> {
 	
-//	@Query("SELECT p FROM PagamentoModel p Inner Join p.TipoDePagamentoModel tpm WHERE p.idPag = :idPag")
-//	PagamentoModel obterPagPorId(@Param("idPag") Long idPag);
-//	
-//	@Query("SELECT p FROM PagamentoModel p Inner Join p.TipoDePagamentoModel tpm WHERE p.dataPag = :dataPag")
-//	List <PagamentoModel> obterPagPorData(@Param("dataPag") Date dataPag);
-	
+
 	
 }

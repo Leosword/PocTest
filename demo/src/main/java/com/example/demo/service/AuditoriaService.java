@@ -1,19 +1,14 @@
 package com.example.demo.service;
 
 
-import java.util.Date;
 
 import com.example.demo.model.AuditoriaModel;
+import com.example.demo.model.ContaModel;
+import com.example.demo.model.UsuarioModel;
 
 public interface AuditoriaService {
 
-	AuditoriaModel obterPorAcao(String acao);	
-	
-	AuditoriaModel obterPorAcaoCpf(String acao, String cpf);
-	
-	AuditoriaModel obterPorData(Date data);
-	
-	AuditoriaModel obterPorNomeData(String nome, Date data);
-	
+	String obterPorAcao(String acao);
 
+	AuditoriaModel obterPorNome(String nome);
 }
