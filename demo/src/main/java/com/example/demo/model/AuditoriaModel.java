@@ -21,6 +21,8 @@ import lombok.Setter;
 
 public class AuditoriaModel {
 
+	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idAuditoria;

@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
 import java.math.BigDecimal; 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,8 +26,8 @@ public interface AuditoriaRepository extends JpaRepository<AuditoriaModel, Strin
 	@Query("SELECT a FROM AuditoriaModel a Inner Join fetch a.usuarioModel um WHERE a.valor = :valor and a.data = :data")
 	List<AuditoriaModel> obterPorValorData(@Param("valor")BigDecimal valor,@Param("data")Date data);
 	
-	@Query("SELECT a FROM AuditoriaModel a Inner Join fetch a.usuarioModel um WHERE um.nome = :nome and a.data = :data")
-	List<AuditoriaModel>obterPorNomeData(@Param("nome")String nome, @Param("data")Date data);
+	@Query("SELECT a FROM AuditoriaModel a Inner Join fetch a.usuarioModel um WHERE um.nome = :nome")
+	AuditoriaModel obterPorNome(@Param("nome")String nome);
 	
 	@Query("SELECT a FROM AuditoriaModel a Inner Join fetch a.usuarioModel um WHERE a.acao = :acao and um.cpf = :cpf")
 	List<AuditoriaModel>obterPorAcaoCpf(@Param("acao")String acao,@Param("cpf")String cpf);
