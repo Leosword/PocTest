@@ -1,9 +1,9 @@
 package com.example.demo.enums;
 
 public enum TipoContaEnums {
-	CORRENTE(1, "Corrente"), POUPANCA(2, "Poupança"), SALARIO(3, "Salário");
+	CORRENTE(1L, "Corrente"), POUPANCA(2L, "Poupança"), SALARIO(3L, "Salário");
 
-	public static TipoContaEnums get(Integer id) {
+	public static TipoContaEnums get(Long id) {
 		for(TipoContaEnums obj : TipoContaEnums.values()) {
 			if(obj.getId().equals(id))
 				return obj;
@@ -19,11 +19,11 @@ public enum TipoContaEnums {
 			return null;
 		}
 	
-	Integer id;
+	Long id;
 	
 	String nome;
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	
@@ -32,7 +32,7 @@ public enum TipoContaEnums {
 	}
 	
 
-	TipoContaEnums(Integer id, String nome){
+	TipoContaEnums(Long id, String nome){
 		this.id = id;
 		this.nome = nome;
 	}

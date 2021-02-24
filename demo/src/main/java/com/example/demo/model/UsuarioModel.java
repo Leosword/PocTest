@@ -58,6 +58,21 @@ public class UsuarioModel {
 	@JoinColumn(name ="conta_idconta")
 	private ContaModel contaModel;
 
-	
+	public UsuarioModel novoUsuario(Long idUsuario, String nome, Date dtaDeNascimento, String rg, String cpf,
+			String cep, String endereco, String bairro, String cidade, String estado, String telefone, ContaModel contaModel) {
+		this.idUsuario = idUsuario;
+		this.nome = nome;
+		this.dtaDeNascimento = dtaDeNascimento;
+		this.rg = rg;
+		this.cpf = cpf;
+		this.cep = cep;
+		this.endereco = endereco;
+		this.bairro = bairro;
+		this.estado = estado;
+		this.telefone = telefone;
+		this.contaModel = contaModel;
+		return this;
+		
+	}
 
 }
