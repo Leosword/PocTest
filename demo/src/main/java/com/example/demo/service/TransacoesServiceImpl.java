@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.crypto.Data;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.enums.TipoDePagamentoEnums;
@@ -14,7 +15,6 @@ import com.example.demo.model.TipoDePagamentoModel;
 import com.example.demo.model.TipoTransacaoModel;
 import com.example.demo.model.TransacoesModel;
 import com.example.demo.model.UsuarioModel;
-import com.example.demo.repository.ContaRepository;
 import com.example.demo.repository.TransacoesReporsitory;
 import com.example.demo.repository.UsuarioRepository;
 
@@ -71,9 +71,36 @@ public class TransacoesServiceImpl implements TransacoesService {
 		
 	}
 	
+	public void saque(Long idUsuario, BigDecimal valorTransacao) {
+		UsuarioModel usuarioModel = usuarioRepository.obterPorID(idUsuario);
+		TransacoesModel transacoesModel = new TransacoesModel();
+		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
+		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.SAQUE.getNome());
+		Boolean verificaSaldo = verificaSaldo(usuarioModel.getNome(), valorTransacao);
+
+		if (verificaSaldo.equals(true)) {
+			BigDecimal subtract = usuarioModel.getContaModel().getSaldo().subtract(valorTransacao);
+			usuarioModel.getContaModel().setSaldo(subtract);
+		}
+		System.out.println("Saldo insuficiente para realizar o saque");
+
+		transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel,
+				tipoTransacaoModel);
+
+		usuarioRepository.save(usuarioModel);
+		transacoesRepository.save(transacoesModel);
+
+	}
+
+		
+	public List<TransacoesModel> extrato(Long idUsuario, Date periodoInicial, Date periodoFinal){
+		
+		List<TransacoesModel> obterTrasacoesPorUsuarioPeriodo = transacoesRepository.obterTrasacoesPorUsuarioPeriodo(idUsuario, periodoInicial, periodoFinal);
+		
+		return obterTrasacoesPorUsuarioPeriodo;
 	
-
-
+	}
+	
 	public Boolean verificaSaldo(String nome, BigDecimal valortransacao) {
 		
 		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(nome);
@@ -83,6 +110,8 @@ public class TransacoesServiceImpl implements TransacoesService {
 		return false;
 	}
 
+
+	
 	public TransacoesModel verificaBeneficiado(BigDecimal valorTransacao, UsuarioModel beneficiado,
 			TransacoesModel transacoesModel, TipoTransacaoModel tipoTransacaoModel, String nome) {
 

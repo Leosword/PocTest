@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -35,7 +33,11 @@ public class PagamentoModel {
 	@Column(name = "dataPag", nullable = false)
 	private Date dataPag;
 		
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="idTipoDePamentoIdPagamento")
-	private TipoDePagamentoModel tipoDePagamentoModel;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name ="conta_idconta")
+	private ContaModel contaModel;
+	
+//	@OneToMany(fetch = FetchType.LAZY)
+//	@JoinColumn(name ="idTipoDePamentoIdPagamento")
+//	private TipoDePagamentoModel tipoDePagamentoModel;
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -18,4 +19,7 @@ public interface TransacoesService {
 	
 	public TransacoesModel verificaBeneficiado(BigDecimal valorTransacao, UsuarioModel beneficiado, TransacoesModel transacoesModel, TipoTransacaoModel tipoTransacaoModel, String nome);
 	
+	public void saque(Long idUsuario, BigDecimal valorTransacao);
+	
+	public List<TransacoesModel> extrato(Long idUsuario, TransacoesModel transacoesModel);
 }

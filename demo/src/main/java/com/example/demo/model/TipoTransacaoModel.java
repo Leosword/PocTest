@@ -37,4 +37,9 @@ public class TipoTransacaoModel {
 		this.idTipoDePagamento = idTipoDePagamento;
 		return this;
 	}
+	public TipoTransacaoModel criarTipoTransacao(String nome) {
+		this.nome = nome;
+		return this;
+	}
+	
 }

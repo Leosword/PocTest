@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum TipoDeTransacoesEnums {
 	
-	DEPOSITO(1, "Deposito"), PAGAMENTO(2, "Pagamento"), TRANSFERENCIA(3,"Transferencia");
+	DEPOSITO(1, "Deposito"), PAGAMENTO(2, "Pagamento"), TRANSFERENCIA(3,"Transferencia"), SAQUE(4, "Saque");
 	
 
 
