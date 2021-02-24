@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +27,18 @@ public class ContaServiceImpl implements ContaService {
 		return contaRepository.obterContaPorId(idConta);
 	}
 
-	public ContaModel obterContaPorAgencia(String agencia) {
-		return contaRepository.obterContaPorAgencia(agencia);
-
+	public BigDecimal obterSaldo(Long idConta) {
+		ContaModel contaModel = contaRepository.obterContaPorId(idConta);
+		return contaModel.getSaldo();
 	}
-
-	public ContaModel obterContaPorNumeroEAgencia(String conta, String agencia) {
-		return contaRepository.obterContaeTipoPorNumeroEAgencia(conta, agencia);
+	
+	@Override
+	public ContaModel salvarConta(ContaModel idConta) {
+		return contaRepository.save(idConta);
 	}
-
-	public ContaModel obterContaeTipoPorNumeroEAgencia(String numeroConta, String agencia) {
-		return contaRepository.obterContaeTipoPorNumeroEAgencia(numeroConta, agencia);
-
+	public void  deletarConta(ContaModel idConta) {
+			contaRepository.delete(idConta);
+			
 	}
+	
 }

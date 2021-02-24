@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.example.demo.model.ContaModel;
@@ -12,9 +13,9 @@ public interface ContaService {
 	
 	ContaModel obterContaPorId(Long idConta);
 	
-	ContaModel obterContaPorAgencia(String agencia);
+	public BigDecimal obterSaldo(Long idConta);
 	
-	ContaModel obterContaPorNumeroEAgencia(String conta, String agencia);
+	ContaModel salvarConta(ContaModel idConta);	
 	
-	ContaModel obterContaeTipoPorNumeroEAgencia (String numeroConta, String agencia);
+	 void deletarConta(ContaModel idConta);	
 }
