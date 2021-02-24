@@ -23,5 +23,15 @@ public class TipoContaModel {
 		@Column(name="nome", nullable = false)
 		private String nome;
 		
+		public TipoContaModel novoTipoConta (Long idTipoConta, String nome) {
+			this.idTipoConta = idTipoConta;
+			this.nome = nome;
+			return this;
+		}
+
+		
+
+		
+		
 	}
 
