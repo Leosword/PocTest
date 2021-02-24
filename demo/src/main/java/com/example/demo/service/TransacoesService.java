@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -21,5 +22,5 @@ public interface TransacoesService {
 	
 	public void saque(Long idUsuario, BigDecimal valorTransacao);
 	
-	public List<TransacoesModel> extrato(Long idUsuario, TransacoesModel transacoesModel);
+	public List<TransacoesModel> extrato(Long idUsuario, Date periodoInicial, Date periodoFinal);
 }
