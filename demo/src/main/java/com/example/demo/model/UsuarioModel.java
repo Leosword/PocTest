@@ -15,9 +15,8 @@ import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.Setter;
-
-@Setter
 @Getter
+@Setter
 @Entity 
 public class UsuarioModel {
 	
