@@ -23,4 +23,6 @@ public interface TransacoesService {
 	public void saque(Long idUsuario, BigDecimal valorTransacao);
 	
 	public List<TransacoesModel> extrato(Long idUsuario, Date periodoInicial, Date periodoFinal);
+	
+	
 }

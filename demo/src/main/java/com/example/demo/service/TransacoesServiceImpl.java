@@ -4,17 +4,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.crypto.Data;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.enums.TipoDePagamentoEnums;
 import com.example.demo.enums.TipoDeTransacoesEnums;
+import com.example.demo.model.PagamentoModel;
 import com.example.demo.model.TipoDePagamentoModel;
 import com.example.demo.model.TipoTransacaoModel;
 import com.example.demo.model.TransacoesModel;
 import com.example.demo.model.UsuarioModel;
+import com.example.demo.repository.PagamentoRepository;
 import com.example.demo.repository.TransacoesReporsitory;
 import com.example.demo.repository.UsuarioRepository;
 
@@ -26,6 +26,9 @@ public class TransacoesServiceImpl implements TransacoesService {
 	private TransacoesReporsitory transacoesRepository;
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public void deposito(String nome, String beneficiario, BigDecimal valorTransacao) {
 
@@ -33,7 +36,7 @@ public class TransacoesServiceImpl implements TransacoesService {
 		TransacoesModel transacoesModel = new TransacoesModel();
 		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
 		TipoDePagamentoModel tipoDePagamentoModel = new TipoDePagamentoModel();
-		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome(), 1);
+		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome());
 		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.DEPOSITO.getNome(), tipoDePagamentoModel);
 	
 			TransacoesModel verificaBeneficiado = verificaBeneficiado(valorTransacao, usuarioModel, transacoesModel, tipoTransacaoModel, nome);
@@ -50,7 +53,7 @@ public class TransacoesServiceImpl implements TransacoesService {
 		TransacoesModel transacoesModel = new TransacoesModel();
 		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
 		TipoDePagamentoModel tipoDePagamentoModel = new TipoDePagamentoModel();
-		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome(), 1);
+		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome());
 		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.TRANSFERENCIA.getNome(), tipoDePagamentoModel);	
 		
 		Boolean verificaSaldo = verificaSaldo(nome, valortransacao);
@@ -84,11 +87,11 @@ public class TransacoesServiceImpl implements TransacoesService {
 		}
 		System.out.println("Saldo insuficiente para realizar o saque");
 
-		transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel,
+		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel,
 				tipoTransacaoModel);
 
 		usuarioRepository.save(usuarioModel);
-		transacoesRepository.save(transacoesModel);
+		transacoesRepository.save(criaNovaTransacao);
 
 	}
 
@@ -110,7 +113,36 @@ public class TransacoesServiceImpl implements TransacoesService {
 		return false;
 	}
 
+	public String pagamento(Long idUsuario, Long idPagamento, Integer qtdePagamento, BigDecimal valorTotal) {
 
+		UsuarioModel usuarioModel = usuarioRepository.obterPorID(idUsuario);
+		PagamentoModel pagamentoId = pagamentoRepository.obterPagamentoId(idPagamento);
+		TransacoesModel transacoesModel = new TransacoesModel();
+		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
+		PagamentoModel pagamentoModel = new PagamentoModel();
+		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.PAGAMENTO.getNome());
+
+		BigDecimal valorTransacao = valorTotal.divide(new BigDecimal(qtdePagamento));
+
+		Boolean verificaSaldo = verificaSaldo(usuarioModel.getNome(), valorTransacao);
+		if (pagamentoId.getQtdePagamento() != 0) {
+			if (verificaSaldo.equals(true)) {
+				BigDecimal subtract = usuarioModel.getContaModel().getSaldo().subtract(valorTransacao);
+				usuarioModel.getContaModel().setSaldo(subtract);
+				pagamentoModel.setQtdePagamento(qtdePagamento -= 1);
+				}
+			}
+		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel, tipoTransacaoModel);
+		
+		transacoesRepository.save(criaNovaTransacao);
+		usuarioRepository.save(usuarioModel);
+		
+		
+		return ("A Parcela"+qtdePagamento+"está paga com o valor de: "+valorTransacao);
+		
+		}
+
+	
 	
 	public TransacoesModel verificaBeneficiado(BigDecimal valorTransacao, UsuarioModel beneficiado,
 			TransacoesModel transacoesModel, TipoTransacaoModel tipoTransacaoModel, String nome) {

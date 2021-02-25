@@ -26,23 +26,33 @@ public class TipoDePagamentoModel {
 	private String nome;
 	
 	
-	@Column(name="qtdePagamento",nullable=false)
-	private Integer qtdePagamento;
-	
-	
+
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name = "idPag")
-	private PagamentoModel pagamentoModel;
+	private PagamentoModel idPagamentoModel;
 	
-	public TipoDePagamentoModel criarTipoPagamento(String nome, Integer qtdepagamento) {
-		this.qtdePagamento = qtdepagamento;
-		if(qtdePagamento > 1) {
+	public TipoDePagamentoModel criarTipoPagamento(String nome, PagamentoModel idPag) {
+		PagamentoModel pagamentoModel = new PagamentoModel();
+		if(pagamentoModel.getQtdePagamento() > 1) {
+			this.idTipoDePamento = TipoDePagamentoEnums.PARCELADO.getId();
+			this.nome = TipoDePagamentoEnums.PARCELADO.getNome();
+			this.idPagamentoModel = idPag;
+			}
+		this.idTipoDePamento = TipoDePagamentoEnums.AVISTA.getId();
+		this.nome = TipoDePagamentoEnums.AVISTA.getNome();
+		this.idPagamentoModel = idPag;
+		
+		return this;
+	}
+	
+	public TipoDePagamentoModel criarTipoPagamento(String nome) {
+		PagamentoModel pagamentoModel = new PagamentoModel();
+		if(pagamentoModel.getQtdePagamento() > 1) {
 			this.idTipoDePamento = TipoDePagamentoEnums.PARCELADO.getId();
 			this.nome = TipoDePagamentoEnums.PARCELADO.getNome();
 			}
 		this.idTipoDePamento = TipoDePagamentoEnums.AVISTA.getId();
 		this.nome = TipoDePagamentoEnums.AVISTA.getNome();
-		
 		
 		return this;
 	}

@@ -14,6 +14,14 @@ import com.example.demo.model.PagamentoModel;
 @Repository
 public interface PagamentoRepository extends JpaRepository<PagamentoModel, String> {
 	
+@Query("SELECT pm FROM PagamentoModel pm WHERE qtdePagamento > 1")
+PagamentoModel obterTodosParcelados();
 
-	
+//@Query("Select pm FROM PagamentoModel pm LEFT JOIN TipoDePagamentoModel tp "
+//		+ "tp.idTipoDePamento LEFT JOIN TipoTransacaoModel tt"
+//		+ "tt.idTipoTransacao LEFT JOIN TransacoesModel t WHERE t.idTransacoes =  " )
+
+@Query("SELECT pm FROM PagamentoModel pm WHERE pm.idPag = :idPag ")
+PagamentoModel obterPagamentoId(@Param("idPag") Long idPag);
+
 }

@@ -32,4 +32,18 @@ public class PagamentoModel {
 
 	@Column(name = "dataPag", nullable = false)
 	private Date dataPag;
+	
+	@Column(name="qtdePagamento",nullable=false)
+	private Integer qtdePagamento;
+	
+	
+	
+	public PagamentoModel criaNovoPagamento(Long idPag, BigDecimal valorTotal, String estabelecimento, Date dataPag, Integer qtdePagamento) {
+		this.idPag = idPag;
+		this.valorTotal = valorTotal;
+		this.estabelecimento = estabelecimento;
+		this.dataPag = dataPag;	
+		this.qtdePagamento = qtdePagamento;
+		return this;
+	}
 }
