@@ -77,30 +77,36 @@ public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, St
 	List<TransacoesModel> obterPorTipoTransacao(@Param("idTipoTransacao") Long idTipoTransacao);
 	
 	
-	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
-			+" Inner Join t.tipdeDeTransacaoModel tt "
-			+" Inner Join tt.idTipoDePagamento tp WHERE tp.qtdePagamento = 1 "
-			)
-	List<TransacoesModel> obterTransacoesAvista(@Param("qtdePagamento") Integer qtdePagamento);
-	
-	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
-			+" Inner Join t.tipdeDeTransacaoModel tt "
-			+" Inner Join tt.idTipoDePagamento tp WHERE tp.qtdePagamento > 1 "
-			)
-	List<TransacoesModel> obterTransacoesPrazo(@Param("qtdePagamento") Integer qtdePagamento);
+//	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
+//			+" Inner Join t.tipdeDeTransacaoModel tt "
+//			+" Inner Join tt.idTipoDePagamento tp WHERE tp.qtdePagamento = 1 "
+//			)
+//	List<TransacoesModel> obterTransacoesAvista(@Param("qtdePagamento") Integer qtdePagamento);
+//	
+//	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
+//			+" Inner Join t.tipdeDeTransacaoModel tt "
+//			+" Inner Join tt.idTipoDePagamento tp WHERE tp.qtdePagamento > 1 "
+//			)
+//	List<TransacoesModel> obterTransacoesPrazo(@Param("qtdePagamento") Integer qtdePagamento);
 	
 	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
 			+" Inner Join t.tipdeDeTransacaoModel tt "
 			+" Inner Join tt.idTipoDePagamento tp"
-			+" Inner Join tp.pagamentoModel pm WHERE pm.valorTotal = :valorTotal")
+			+" Inner Join tp.idPagamentoModel pm WHERE pm.valorTotal = :valorTotal")
 	List<TransacoesModel> obterValorTotal(@Param("valorTotal") BigDecimal valorTotal);
 	
 	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
 			+" Inner Join Fetch t.tipdeDeTransacaoModel tt "
 			+" Inner Join Fetch tt.idTipoDePagamento tp"
-			+" Inner Join Fetch tp.pagamentoModel pm WHERE pm.estabelecimento = :estabelecimento")
+			+" Inner Join Fetch tp.idPagamentoModel pm WHERE pm.estabelecimento = :estabelecimento")
 	List<TransacoesModel> obterPagamentoPorEstabelecimento(@Param("estabelecimento") String estabelecimento);
 	
+	
+	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
+			+" Inner Join Fetch t.tipdeDeTransacaoModel tt "
+			+" Inner Join Fetch tt.idTipoDePagamento tp"
+			+" Inner Join Fetch tp.idPagamentoModel pm WHERE um.idUsuario = :idUsuario AND pm.idPag = :idPag")
+	List<TransacoesModel> obterPagamentoPorId(@Param("idPag") Long idPag, @Param("idUsuario") Long idUsuario);
 	
 	
 
