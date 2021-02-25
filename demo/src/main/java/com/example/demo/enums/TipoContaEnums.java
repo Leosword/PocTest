@@ -27,7 +27,7 @@ public enum TipoContaEnums {
 		return id;
 	}
 	
-	public String getNome() {
+	public  String getNome() {
 		return nome;
 	}
 	

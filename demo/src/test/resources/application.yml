@@ -4,7 +4,7 @@ spring:
     password: vaicorinthians
     hikari:
       connection-test-query: SELECT 1
-    data: classpath:scripts/data.sql
+    data: classpath:data.sql
     url: jdbc:mysql://localhost:3306/db_banco?useTimezone=true&serverTimezone=UTC
     username: vinicius
   jpa:
