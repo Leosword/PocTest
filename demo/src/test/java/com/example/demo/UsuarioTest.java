@@ -13,6 +13,9 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -28,10 +31,10 @@ import com.example.demo.service.UsuarioServiceImpl;
 @SpringBootTest
 class UsuarioTest {
 
-	@Autowired
+	@Mock
 	private UsuarioRepository usuarioRepository;
 
-	@Autowired
+	@InjectMocks
 	private UsuarioServiceImpl usuarioServiceImpl;
 
 	@Autowired
@@ -43,6 +46,8 @@ class UsuarioTest {
 	TipoContaModel tipoContaModel = new TipoContaModel();
 	List<UsuarioModel> retornarUsuarioModelList = new ArrayList<UsuarioModel>();
 	SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+	private Long idUsuario;
 
 		
 //		usuarioModel1.novoUsuario(1L, "tonho", formato.parse("12/01/1995"), "11.111.111-1", "111.111.111-11",
@@ -107,13 +112,17 @@ class UsuarioTest {
 	
 	@Test
 	public void ObterPorIdOK() {
-		Long usuarioID = usuarioModel1.getIdUsuario();
-		when(usuarioRepository.obterPorID(usuarioID)).thenReturn(usuarioModel1);
-		assertEquals(usuarioID, usuarioModel1.getIdUsuario());
+		UsuarioModel usuarioModel1 = new UsuarioModel();
+		usuarioModel1.setIdUsuario(1L);
+		Mockito.when(usuarioRepository.obterPorID(usuarioModel1.getIdUsuario())).thenReturn(usuarioModel1);
+		UsuarioModel obterPorID = usuarioServiceImpl.obterPorID(usuarioModel1.getIdUsuario());
+		assertEquals(obterPorID, usuarioModel1);
 	}
 
+
 	@Test
-	void contextLoads() {
+	void contextLoads() {		
 	}
 
 }
+
