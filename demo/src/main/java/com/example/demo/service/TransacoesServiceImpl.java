@@ -144,8 +144,10 @@ public class TransacoesServiceImpl implements TransacoesService {
 
 	
 	
+	
+	
 	public TransacoesModel verificaBeneficiado(BigDecimal valorTransacao, UsuarioModel beneficiado,
-			TransacoesModel transacoesModel, TipoTransacaoModel tipoTransacaoModel, String nome) {
+			TransacoesModel transacoesModel, TipoTransacaoModel tipoTransacaoModel, String nome){
 
 		if (beneficiado.getNome().equals(nome)) {
 			return transacoesModel.criaNovaTransacao(valorTransacao, new Date(), beneficiado.getNome(), beneficiado,

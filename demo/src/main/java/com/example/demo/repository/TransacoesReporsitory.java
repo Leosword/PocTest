@@ -77,17 +77,18 @@ public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, St
 	List<TransacoesModel> obterPorTipoTransacao(@Param("idTipoTransacao") Long idTipoTransacao);
 	
 	
-//	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
-//			+" Inner Join t.tipdeDeTransacaoModel tt "
-//			+" Inner Join tt.idTipoDePagamento tp WHERE tp.qtdePagamento = 1 "
-//			)
-//	List<TransacoesModel> obterTransacoesAvista(@Param("qtdePagamento") Integer qtdePagamento);
-//	
-//	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
-//			+" Inner Join t.tipdeDeTransacaoModel tt "
-//			+" Inner Join tt.idTipoDePagamento tp WHERE tp.qtdePagamento > 1 "
-//			)
-//	List<TransacoesModel> obterTransacoesPrazo(@Param("qtdePagamento") Integer qtdePagamento);
+	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
+			+" Inner Join t.tipdeDeTransacaoModel tt "
+			+" Inner Join tt.idTipoDePagamento tp"
+			+ " Inner Join tp.idPagamentoModel pm WHERE pm.qtdePagamento = 1 "
+			)
+	List<TransacoesModel> obterTransacoesAvista(@Param("qtdePagamento") Integer qtdePagamento);
+	
+	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
+			+" Inner Join t.tipdeDeTransacaoModel tt "
+			+" Inner Join tt.idTipoDePagamento tp"
+			+ " Inner Join tp.idPagamentoModel pm WHERE pm.qtdePagamento > 1 ")
+	List<TransacoesModel> obterTransacoesPrazo(@Param("qtdePagamento") Integer qtdePagamento);
 	
 	@Query (" SELECT t From TransacoesModel t Inner Join Fetch t.usuarioModel um "
 			+" Inner Join t.tipdeDeTransacaoModel tt "
@@ -108,6 +109,9 @@ public interface TransacoesReporsitory extends JpaRepository<TransacoesModel, St
 			+" Inner Join Fetch tp.idPagamentoModel pm WHERE um.idUsuario = :idUsuario AND pm.idPag = :idPag")
 	List<TransacoesModel> obterPagamentoPorId(@Param("idPag") Long idPag, @Param("idUsuario") Long idUsuario);
 	
+	@Query (" SELECT tm FROM TransacoesModel tm inner Join fetch tm.idpagamentoModel pm WHERE tm.idpagamentoModel = :idPag AND pm.idPag = :idPag")
+	List<TransacoesModel> obterTransacoesDePagamento(@Param("idPag") Long idPag);
+		
 	
 
 }

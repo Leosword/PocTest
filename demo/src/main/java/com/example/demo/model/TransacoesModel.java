@@ -44,6 +44,10 @@ public class TransacoesModel {
 	@JoinColumn(name="idTipoTransacao")
 	private TipoTransacaoModel tipdeDeTransacaoModel;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name= "idPag")
+	private PagamentoModel idpagamentoModel;
+	
 	public TransacoesModel criaNovaTransacao(BigDecimal valorTransacao, Date dataTransacao, String beneficiario, UsuarioModel usuarioModel, TipoTransacaoModel tipdeDeTransacaoModel) {
 		this.valorTransacao = valorTransacao;
 		this.dataTransacao = dataTransacao;
