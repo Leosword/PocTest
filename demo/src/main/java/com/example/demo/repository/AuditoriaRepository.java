@@ -31,4 +31,6 @@ public interface AuditoriaRepository extends JpaRepository<AuditoriaModel, Strin
 	
 	@Query("SELECT a FROM AuditoriaModel a Inner Join fetch a.usuarioModel um WHERE a.acao = :acao and um.cpf = :cpf")
 	List<AuditoriaModel>obterPorAcaoCpf(@Param("acao")String acao,@Param("cpf")String cpf);
+	
+	
 }

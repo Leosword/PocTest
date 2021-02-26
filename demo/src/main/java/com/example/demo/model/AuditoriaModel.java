@@ -52,5 +52,7 @@ public class AuditoriaModel {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "Usuario_Conta_idConta")
 	private ContaModel contaModel;
+
+	
 	
 }
