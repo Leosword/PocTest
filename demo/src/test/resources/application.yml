@@ -9,10 +9,10 @@ spring:
     username: vinicius
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
-    hibernate:
-      ddl-auto: create
     properties:
       hibernate:
-        show_sql: false
-        format_sql: true
+        hbm2ddl:
+          import_files: script/data.sql
+    show-sql: true
+   
       

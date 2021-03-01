@@ -37,9 +37,6 @@ class UsuarioTest {
 	@InjectMocks
 	private UsuarioServiceImpl usuarioServiceImpl;
 
-	@Autowired
-	private UsuarioService usuarioService;
-
 	UsuarioModel usuarioModel1 = new UsuarioModel();
 	UsuarioModel usuarioModel2 = new UsuarioModel();
 	ContaModel contaModel = new ContaModel();
@@ -99,16 +96,20 @@ class UsuarioTest {
 		
 		tipoContaModel.setIdTipoConta(TipoContaEnums.CORRENTE.getId());
 		tipoContaModel.setNome(TipoContaEnums.CORRENTE.getNome());
-		
-		
+
 	}
+
 
 	@Test
 	public void obterTodosUsuarios() {
-		List<UsuarioModel> usuarioAll = usuarioService.obterTodos();
-		 assertEquals(0, 0);
-	}
 	
+		List<UsuarioModel> usuario1 = new ArrayList<UsuarioModel>();
+		usuario1.add(usuarioModel1);
+		Mockito.when(usuarioRepository.findAll()).thenReturn(usuario1);
+		List<UsuarioModel> obterTodos = new ArrayList<>();
+		obterTodos = usuarioServiceImpl.obterTodos();
+		assertEquals(obterTodos, usuario1);
+	}
 	
 	@Test
 	public void ObterPorIdOK() {
