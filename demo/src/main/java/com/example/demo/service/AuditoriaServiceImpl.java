@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.AuditoriaModel;
 import com.example.demo.model.TransacoesModel;
+import com.example.demo.model.UsuarioModel;
 import com.example.demo.repository.AuditoriaRepository;
 import com.example.demo.repository.TransacoesReporsitory;
 import com.example.demo.repository.UsuarioRepository;
@@ -43,16 +45,19 @@ public class AuditoriaServiceImpl implements AuditoriaService {
 	}
 		
 
-		public List<TransacoesModel> TipoDeTransacao(String nome, Date data){
+		public List<TransacoesModel> TipoDeTransacao(String nome, Date dataDaTransacao){
+			List<TransacoesModel> TipoTransacao = new ArrayList<>();
+			UsuarioModel usuarioModel = new UsuarioModel();
+			TransacoesModel transacoesModel = new TransacoesModel();
+			TipoTransacao.add(transacoesModel);
+		if(usuarioModel.getNome().equals(nome) && transacoesModel.getDataTransacao().equals(dataDaTransacao) ) {
 			
-			//TransacoesModel
-			
-			return null;
+			return TipoTransacao;
 		}
 		
+		return TipoTransacao;
 		
-		
-
+		}
 	
 		
 	}
