@@ -15,5 +15,6 @@ public interface AuditoriaService {
 
 	TransacoesModel obterTrasacoesUsuario(String nome);
 	
-		
+
+	
 }

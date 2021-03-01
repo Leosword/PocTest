@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +40,25 @@ public class AuditoriaServiceImpl implements AuditoriaService {
 			return transacoesModel;
 		}
 		return transacoesModel;
-	
+	}
 		
-	
+
+		public List<TransacoesModel> TipoDeTransacao(String nome, Date data){
+			
+			//TransacoesModel
+			
+			return null;
+		}
+		
+		
+		
+
 	
 		
 	}
 		
 		
-}
+
 		
 		
 		
