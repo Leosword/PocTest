@@ -12,7 +12,7 @@ import com.example.demo.model.ContaModel;
 @Repository
 public interface ContaRepository extends JpaRepository<ContaModel, String> {
 
-	@Query("SELECT c FROM ContaModel c inner join UsuarioModel u  WHERE c.idConta = :idConta")
+	@Query("SELECT c FROM ContaModel c  WHERE c.idConta = :idConta")
 	ContaModel obterContaPorId(@Param("idConta") Long idConta);
 
 	@Query("SELECT c FROM ContaModel c inner join UsuarioModel u  WHERE c.numeroConta = :numeroConta")

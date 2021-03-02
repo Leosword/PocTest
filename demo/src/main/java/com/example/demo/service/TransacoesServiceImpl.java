@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,8 @@ public class TransacoesServiceImpl implements TransacoesService {
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
 
+	
+	@Transactional
 	public void deposito(String nome, String beneficiario, BigDecimal valorTransacao) {
 
 		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(beneficiario);
@@ -45,7 +49,7 @@ public class TransacoesServiceImpl implements TransacoesService {
 			usuarioRepository.save(usuarioModel);
 			transacoesRepository.save(verificaBeneficiado);
 	}
-	
+	@Transactional
 	public void transferencia(String nome, String beneficiario, BigDecimal valortransacao, Integer qtdepagamento) {
 		
 		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(nome);
@@ -73,7 +77,7 @@ public class TransacoesServiceImpl implements TransacoesService {
 		
 		
 	}
-	
+	@Transactional
 	public void saque(Long idUsuario, BigDecimal valorTransacao) {
 		UsuarioModel usuarioModel = usuarioRepository.obterPorID(idUsuario);
 		TransacoesModel transacoesModel = new TransacoesModel();
@@ -84,11 +88,11 @@ public class TransacoesServiceImpl implements TransacoesService {
 		if (verificaSaldo.equals(true)) {
 			BigDecimal subtract = usuarioModel.getContaModel().getSaldo().subtract(valorTransacao);
 			usuarioModel.getContaModel().setSaldo(subtract);
-		}
+		}else {
 		System.out.println("Saldo insuficiente para realizar o saque");
-
-		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel,
-				tipoTransacaoModel);
+		}
+		
+		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel,tipoTransacaoModel);
 
 		usuarioRepository.save(usuarioModel);
 		transacoesRepository.save(criaNovaTransacao);

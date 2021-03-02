@@ -2,8 +2,9 @@ package com.example.demo.model;
 
 
 
-import java.util.Date; 
+import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,7 +54,7 @@ public class UsuarioModel {
 	@Column(name = "telefone")
 	private String telefone;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name ="conta_idconta")
 	private ContaModel contaModel;
 
