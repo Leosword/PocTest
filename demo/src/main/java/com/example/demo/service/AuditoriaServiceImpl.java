@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.AuditoriaModel;
+import com.example.demo.model.PagamentoModel;
+import com.example.demo.model.ProdutoModel;
 import com.example.demo.model.TransacoesModel;
 import com.example.demo.model.UsuarioModel;
 import com.example.demo.repository.AuditoriaRepository;
@@ -55,10 +57,29 @@ public class AuditoriaServiceImpl implements AuditoriaService {
 			return TipoTransacao;
 		}
 		
-		return TipoTransacao;
+	return TipoTransacao;
 		
 		}
-	
+		public PagamentoModel obterPagamentoId(Long idPag) {
+			
+			PagamentoModel pagamentoModel = new PagamentoModel();
+			if(idPag.equals(pagamentoModel.getIdPag())) {
+				return pagamentoModel;
+			}
+			return pagamentoModel;
+			
+			
+		}
+		public ProdutoModel obterTipoProduto(Long idProduto) {
+			
+			ProdutoModel produtoModel = new ProdutoModel();
+			if(idProduto.equals(produtoModel.getIdProduto())) {
+				
+				return produtoModel;
+			}
+			
+			return null;
+		}
 		
 	}
 		
