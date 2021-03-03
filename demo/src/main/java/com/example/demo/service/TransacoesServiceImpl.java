@@ -41,49 +41,63 @@ public class TransacoesServiceImpl implements TransacoesService {
 	private TipoDePagamentoRepository tipoDePagamentoRepository;
 
 	@Transactional
-	public void deposito(String nome, String beneficiario, BigDecimal valorTransacao) {
+	public void deposito(Long idUsuario, BigDecimal valorTransacao) {
 
-		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(beneficiario);
+		UsuarioModel usuarioModel = usuarioRepository.obterPorID(idUsuario);
 		TransacoesModel transacoesModel = new TransacoesModel();
-		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
-		TipoDePagamentoModel tipoDePagamentoModel = new TipoDePagamentoModel();
-		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome());
-		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.DEPOSITO.getNome(), tipoDePagamentoModel);
-	
-			TransacoesModel verificaBeneficiado = verificaBeneficiado(valorTransacao, usuarioModel, transacoesModel, tipoTransacaoModel, nome);
-			BigDecimal saldoAtual = usuarioModel.getContaModel().getSaldo();
-			usuarioModel.getContaModel().setSaldo(saldoAtual.add(valorTransacao));
-			usuarioRepository.save(usuarioModel);
-			transacoesRepository.save(verificaBeneficiado);
+		TipoTransacaoModel tipoTransacaoModel = tipoTransacaoRepository.obterTransacaoPorID(TipoDeTransacoesEnums.DEPOSITO.getId());
+		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.DEPOSITO.getNome());
+		
+		
+		
+		BigDecimal saldoAtual = usuarioModel.getContaModel().getSaldo();
+		usuarioModel.getContaModel().setSaldo(saldoAtual.add(valorTransacao));
+		
+		
+		
+		
+		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(),usuarioModel.getNome(), usuarioModel, tipoTransacaoModel);
+		
+		usuarioRepository.save(usuarioModel);
+		transacoesRepository.save(criaNovaTransacao);
 	}
+
 	@Transactional
-	public void transferencia(String nome, String beneficiario, BigDecimal valortransacao, Integer qtdepagamento) {
-		
-		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(nome);
-		UsuarioModel beneficiado = usuarioRepository.obterPorNome(beneficiario);
+	public void transferencia(Long idUsuario, Long idBeneficiario, BigDecimal valortransacao) {
+
+		TransacoesModel criaNovaTransacao = null;
+		UsuarioModel usuarioModel = usuarioRepository.obterPorID(idUsuario);
+		UsuarioModel beneficiado = usuarioRepository.obterPorID(idBeneficiario);
 		TransacoesModel transacoesModel = new TransacoesModel();
-		TipoTransacaoModel tipoTransacaoModel = tipoTransacaoRepository.obterTransacaoPorID(TipoDeTransacoesEnums.TRANSFERENCIA.getId());
-		TipoDePagamentoModel tipoDePagamentoModel = tipoDePagamentoRepository.obterTipoId(TipoDePagamentoEnums.AVISTA.getId());
-		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome());
-		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.TRANSFERENCIA.getNome(), tipoDePagamentoModel);	
-		
-		Boolean verificaSaldo = verificaSaldo(nome, valortransacao);
-		
-		TransacoesModel verificaBeneficiado = verificaBeneficiado(valortransacao, usuarioModel, transacoesModel, tipoTransacaoModel, nome);
-		
-		if(verificaSaldo.equals(true)) {
+		TipoTransacaoModel tipoTransacaoModel = tipoTransacaoRepository
+				.obterTransacaoPorID(TipoDeTransacoesEnums.TRANSFERENCIA.getId());
+		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.TRANSFERENCIA.getNome());
+
+		Boolean verificaSaldo = verificaSaldo(usuarioModel.getNome(), valortransacao);
+
+		if (verificaSaldo.equals(true)) {
 			beneficiado.getContaModel().setSaldo(valortransacao);
 			BigDecimal subtract = usuarioModel.getContaModel().getSaldo().subtract(valortransacao);
 			usuarioModel.getContaModel().setSaldo(subtract);
+			
+			criaNovaTransacao = transacoesModel.criaNovaTransacao(valortransacao, new Date(), usuarioModel.getNome(),
+					usuarioModel, tipoTransacaoModel);
+		} else {
+			System.out.println("Sem saldo Suficiente!");
 		}
-		System.out.println("Sem saldo Suficiente!");
-		
+
 		usuarioRepository.save(usuarioModel);
 		usuarioRepository.save(beneficiado);
-		transacoesRepository.save(verificaBeneficiado);
-		
-		
+		if (criaNovaTransacao != null) {
+			transacoesRepository.save(criaNovaTransacao);
+		} else {
+			System.out.println("Transação Falhou");
+		}
+
 	}
+	
+	
+
 	@Transactional
 	public void saque(Long idUsuario, BigDecimal valorTransacao) {
 		UsuarioModel usuarioModel = usuarioRepository.obterPorID(idUsuario);
@@ -94,30 +108,29 @@ public class TransacoesServiceImpl implements TransacoesService {
 		if (verificaSaldo.equals(true)) {
 			BigDecimal subtract = usuarioModel.getContaModel().getSaldo().subtract(valorTransacao);
 			usuarioModel.getContaModel().setSaldo(subtract);
-		}else {
-		System.out.println("Saldo insuficiente para realizar o saque");
+		} else {
+			System.out.println("Saldo insuficiente para realizar o saque");
 		}
-		
-		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel, tipoTransacaoModel);
+
+		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(),usuarioModel.getNome(), usuarioModel, tipoTransacaoModel);
 
 		usuarioRepository.save(usuarioModel);
 		transacoesRepository.save(criaNovaTransacao);
 
 	}
+	
+	public List<TransacoesModel> extrato(Long idUsuario, Date periodoInicial, Date periodoFinal) {
 
-	
-	public List<TransacoesModel> extrato(Long idUsuario, Date periodoInicial, Date periodoFinal){
-		
 		List<TransacoesModel> obterTrasacoesPorUsuarioPeriodo = transacoesRepository.obterTrasacoesPorUsuarioPeriodo(idUsuario, periodoInicial, periodoFinal);
-		
-		return obterTrasacoesPorUsuarioPeriodo; 
-	
+
+		return obterTrasacoesPorUsuarioPeriodo;
+
 	}
 	
 	public Boolean verificaSaldo(String nome, BigDecimal valortransacao) {
-		
+
 		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(nome);
-		if(valortransacao.compareTo(usuarioModel.getContaModel().getSaldo())<=0) {
+		if (valortransacao.compareTo(usuarioModel.getContaModel().getSaldo()) <= 0) {
 			return true;
 		}
 		return false;
@@ -140,20 +153,28 @@ public class TransacoesServiceImpl implements TransacoesService {
 				BigDecimal subtract = usuarioModel.getContaModel().getSaldo().subtract(valorTransacao);
 				usuarioModel.getContaModel().setSaldo(subtract);
 				pagamentoModel.setQtdePagamento(qtdePagamento -= 1);
-				}
 			}
+		}
 		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel, tipoTransacaoModel);
-		
+
 		transacoesRepository.save(criaNovaTransacao);
 		usuarioRepository.save(usuarioModel);
-		
-		
-		return ("A Parcela"+qtdePagamento+"está paga com o valor de: "+valorTransacao);
-		
-		}
 
+		return ("A Parcela" + qtdePagamento + "está paga com o valor de: " + valorTransacao);
+
+	}
 	
 	
+	
+	public Boolean verificarDepositado(Long idUsuario, Long idBeneficiario) {
+		
+		if(idUsuario.equals(idBeneficiario)) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 	
 	
 	public TransacoesModel verificaBeneficiado(BigDecimal valorTransacao, UsuarioModel beneficiado,
@@ -167,6 +188,7 @@ public class TransacoesServiceImpl implements TransacoesService {
 		return transacoesModel.criaNovaTransacao(valorTransacao, new Date(), nome, beneficiado, tipoTransacaoModel);
 
 	}
+
 	
 	
 }

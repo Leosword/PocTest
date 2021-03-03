@@ -14,9 +14,9 @@ public interface TransacoesService {
 
 	public Boolean verificaSaldo(String nome, BigDecimal valortransacao);
 	
-	public void transferencia(String nome, String beneficiario, BigDecimal valortransacao, Integer qtdepagamento);
+	public void transferencia(Long idUsuario, Long idBeneficiario, BigDecimal valortransacao);
 	
-	public void deposito(String nome, String beneficiario, BigDecimal valorTransacao);
+	public void deposito(Long idUsuario, BigDecimal valorTransacao);
 	
 	public TransacoesModel verificaBeneficiado(BigDecimal valorTransacao, UsuarioModel beneficiado, TransacoesModel transacoesModel, TipoTransacaoModel tipoTransacaoModel, String nome);
 	
