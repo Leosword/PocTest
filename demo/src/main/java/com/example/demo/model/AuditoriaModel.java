@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +26,7 @@ public class AuditoriaModel {
 	
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idAuditoria;
 
 	@Column(name = "acao", nullable = false)
@@ -34,7 +36,8 @@ public class AuditoriaModel {
 	private Date data;
 
 	@Column(name = "hora", nullable = false)
-	private Date hora;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date Hora;
 
 	@Column(name = "valor", nullable = false)
 	private BigDecimal valor;
