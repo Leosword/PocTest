@@ -17,6 +17,8 @@ import com.example.demo.model.TipoTransacaoModel;
 import com.example.demo.model.TransacoesModel;
 import com.example.demo.model.UsuarioModel;
 import com.example.demo.repository.PagamentoRepository;
+import com.example.demo.repository.TipoDePagamentoRepository;
+import com.example.demo.repository.TipoTransacaoRepository;
 import com.example.demo.repository.TransacoesReporsitory;
 import com.example.demo.repository.UsuarioRepository;
 
@@ -31,8 +33,13 @@ public class TransacoesServiceImpl implements TransacoesService {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
-
 	
+	@Autowired
+	private TipoTransacaoRepository tipoTransacaoRepository;
+	
+	@Autowired
+	private TipoDePagamentoRepository tipoDePagamentoRepository;
+
 	@Transactional
 	public void deposito(String nome, String beneficiario, BigDecimal valorTransacao) {
 
@@ -55,8 +62,8 @@ public class TransacoesServiceImpl implements TransacoesService {
 		UsuarioModel usuarioModel = usuarioRepository.obterPorNome(nome);
 		UsuarioModel beneficiado = usuarioRepository.obterPorNome(beneficiario);
 		TransacoesModel transacoesModel = new TransacoesModel();
-		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
-		TipoDePagamentoModel tipoDePagamentoModel = new TipoDePagamentoModel();
+		TipoTransacaoModel tipoTransacaoModel = tipoTransacaoRepository.obterTransacaoPorID(TipoDeTransacoesEnums.TRANSFERENCIA.getId());
+		TipoDePagamentoModel tipoDePagamentoModel = tipoDePagamentoRepository.obterTipoId(TipoDePagamentoEnums.AVISTA.getId());
 		tipoDePagamentoModel.criarTipoPagamento(TipoDePagamentoEnums.AVISTA.getNome());
 		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.TRANSFERENCIA.getNome(), tipoDePagamentoModel);	
 		
@@ -81,8 +88,7 @@ public class TransacoesServiceImpl implements TransacoesService {
 	public void saque(Long idUsuario, BigDecimal valorTransacao) {
 		UsuarioModel usuarioModel = usuarioRepository.obterPorID(idUsuario);
 		TransacoesModel transacoesModel = new TransacoesModel();
-		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
-		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.SAQUE.getNome());
+		TipoTransacaoModel tipoTransacaoModel = tipoTransacaoRepository.obterTransacaoPorID(TipoDeTransacoesEnums.SAQUE.getId());
 		Boolean verificaSaldo = verificaSaldo(usuarioModel.getNome(), valorTransacao);
 
 		if (verificaSaldo.equals(true)) {
@@ -92,7 +98,7 @@ public class TransacoesServiceImpl implements TransacoesService {
 		System.out.println("Saldo insuficiente para realizar o saque");
 		}
 		
-		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel,tipoTransacaoModel);
+		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel, tipoTransacaoModel);
 
 		usuarioRepository.save(usuarioModel);
 		transacoesRepository.save(criaNovaTransacao);

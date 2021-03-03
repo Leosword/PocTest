@@ -26,7 +26,7 @@ import lombok.Setter;
 
 public class TransacoesModel {
 	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idTransacoes;
 	
 	@Column(name="valorTransacao",nullable=false)
@@ -44,7 +44,7 @@ public class TransacoesModel {
 	private UsuarioModel usuarioModel;
 
 	
-	@ManyToOne(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	@JoinColumn(name="idTipoTransacao")
 	private TipoTransacaoModel tipdeDeTransacaoModel;
 	

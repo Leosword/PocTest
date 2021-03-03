@@ -10,5 +10,9 @@ import com.example.demo.model.TipoDePagamentoModel;
 
 @Repository
 public interface TipoDePagamentoRepository extends JpaRepository<TipoDePagamentoModel, String>{
+	
 
+	@Query("Select tp FROM TipoDePagamentoModel tp WHERE tp.idTipoDePamento = :idTipoDePamento")
+	TipoDePagamentoModel obterTipoId(@Param("idTipoDePamento")Long idTipoDePamento);
+		
 }
