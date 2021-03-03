@@ -38,8 +38,7 @@ public class PagamentoModel {
 	
 	
 	
-	public PagamentoModel criaNovoPagamento(Long idPag, BigDecimal valorTotal, String estabelecimento, Date dataPag, Integer qtdePagamento) {
-		this.idPag = idPag;
+	public PagamentoModel criaNovoPagamento(BigDecimal valorTotal, String estabelecimento, Date dataPag, Integer qtdePagamento) {
 		this.valorTotal = valorTotal;
 		this.estabelecimento = estabelecimento;
 		this.dataPag = dataPag;	

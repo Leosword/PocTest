@@ -39,9 +39,9 @@ public class ContaModel {
 	@JoinColumn(name ="Tipo_De_Conta_idTipo_De_Conta")
 	private TipoContaModel tipoContaModel;
 	
-	public ContaModel novaConta(Long idConta, String numeroConta, String agencia, BigDecimal saldo, 
+	public ContaModel novaConta(String numeroConta, String agencia, BigDecimal saldo, 
 			TipoContaModel tipoContaModel) {
-		this.idConta = idConta;
+	
 		this.numeroConta = numeroConta;
 		this.agencia = agencia;
 		this.saldo = saldo;

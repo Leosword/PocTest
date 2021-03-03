@@ -5,15 +5,9 @@ import java.util.List;
 
 import com.example.demo.model.PagamentoModel;
 import com.example.demo.model.TransacoesModel;
+import com.example.demo.model.UsuarioModel;
 
 public interface AuditoriaService {
 
-	String obterPorAcao(String acao);
 
-	TransacoesModel obterTrasacoesUsuario(String nome);
-
-	 List<TransacoesModel> TipoDeTransacao(String nome, Date dataDaTransacao);
-	 
-	 PagamentoModel obterPagamentoId(Long idPag);
-	 
 }
