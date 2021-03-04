@@ -24,5 +24,7 @@ public interface TransacoesService {
 	
 	public List<TransacoesModel> extrato(Long idUsuario, Date periodoInicial, Date periodoFinal);
 	
+	public String pagamento(Long idUsuario, Long idPagamento, BigDecimal valorTotal);
+	
 	
 }

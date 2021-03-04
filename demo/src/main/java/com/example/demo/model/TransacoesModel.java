@@ -60,6 +60,14 @@ public class TransacoesModel {
 		this.tipdeDeTransacaoModel = tipdeDeTransacaoModel;
 		return this;
 	}
+	
+	public TransacoesModel criaNovaTransacao(BigDecimal valorTransacao, Date dataTransacao, UsuarioModel usuarioModel, TipoTransacaoModel tipdeDeTransacaoModel) {
+		this.valorTransacao = valorTransacao;
+		this.dataTransacao = dataTransacao;
+		this.usuarioModel = usuarioModel;
+		this.tipdeDeTransacaoModel = tipdeDeTransacaoModel;
+		return this;
+	}
 
 
 }

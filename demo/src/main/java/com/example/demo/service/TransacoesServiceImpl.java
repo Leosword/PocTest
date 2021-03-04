@@ -76,9 +76,11 @@ public class TransacoesServiceImpl implements TransacoesService {
 		Boolean verificaSaldo = verificaSaldo(usuarioModel.getNome(), valortransacao);
 
 		if (verificaSaldo.equals(true)) {
-			beneficiado.getContaModel().setSaldo(valortransacao);
+			BigDecimal add = beneficiado.getContaModel().getSaldo().add(valortransacao);
 			BigDecimal subtract = usuarioModel.getContaModel().getSaldo().subtract(valortransacao);
 			usuarioModel.getContaModel().setSaldo(subtract);
+			
+			beneficiado.getContaModel().setSaldo(add);
 			
 			criaNovaTransacao = transacoesModel.criaNovaTransacao(valortransacao, new Date(), usuarioModel.getNome(),
 					usuarioModel, tipoTransacaoModel);
@@ -135,24 +137,28 @@ public class TransacoesServiceImpl implements TransacoesService {
 		}
 		return false;
 	}
+	@Transactional
+	public String pagamento(Long idUsuario, Long idPagamento, BigDecimal valorTotal) {
 
-	public String pagamento(Long idUsuario, Long idPagamento, Integer qtdePagamento, BigDecimal valorTotal) {
+		Integer qtdePagamento = 0;
 
 		UsuarioModel usuarioModel = usuarioRepository.obterPorID(idUsuario);
 		PagamentoModel pagamentoId = pagamentoRepository.obterPagamentoId(idPagamento);
 		TransacoesModel transacoesModel = new TransacoesModel();
-		TipoTransacaoModel tipoTransacaoModel = new TipoTransacaoModel();
-		PagamentoModel pagamentoModel = new PagamentoModel();
-		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.PAGAMENTO.getNome());
+		TipoTransacaoModel tipoTransacaoModel = tipoTransacaoRepository.obterTransacaoPorID(TipoDeTransacoesEnums.PAGAMENTO.getId());
+		TipoDePagamentoModel tipoPagamentoModel = tipoDePagamentoRepository.obterTipoId(idPagamento);
+		tipoTransacaoModel.criarTipoTransacao(TipoDeTransacoesEnums.PAGAMENTO.getNome(),tipoPagamentoModel);
 
-		BigDecimal valorTransacao = valorTotal.divide(new BigDecimal(qtdePagamento));
+		qtdePagamento = pagamentoId.getQtdePagamento();
+
+		BigDecimal valorTransacao = valorTotal.divide(new BigDecimal(pagamentoId.getQtdePagamento()));
 
 		Boolean verificaSaldo = verificaSaldo(usuarioModel.getNome(), valorTransacao);
 		if (pagamentoId.getQtdePagamento() != 0) {
 			if (verificaSaldo.equals(true)) {
 				BigDecimal subtract = usuarioModel.getContaModel().getSaldo().subtract(valorTransacao);
 				usuarioModel.getContaModel().setSaldo(subtract);
-				pagamentoModel.setQtdePagamento(qtdePagamento -= 1);
+				pagamentoId.setQtdePagamento(qtdePagamento -= 1);
 			}
 		}
 		TransacoesModel criaNovaTransacao = transacoesModel.criaNovaTransacao(valorTransacao, new Date(), usuarioModel.getNome(), usuarioModel, tipoTransacaoModel);
@@ -163,7 +169,6 @@ public class TransacoesServiceImpl implements TransacoesService {
 		return ("A Parcela" + qtdePagamento + "está paga com o valor de: " + valorTransacao);
 
 	}
-	
 	
 	
 	public Boolean verificarDepositado(Long idUsuario, Long idBeneficiario) {

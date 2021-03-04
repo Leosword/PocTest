@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.model.ContaModel;
+import com.example.demo.model.PagamentoModel;
 import com.example.demo.model.TipoContaModel;
 import com.example.demo.model.TransacoesModel;
 import com.example.demo.model.UsuarioModel;
+import com.example.demo.repository.PagamentoRepository;
 import com.example.demo.service.ContaServiceImpl;
 import com.example.demo.service.TransacoesServiceImpl;
 import com.example.demo.service.UsuarioService;
@@ -30,6 +32,9 @@ public class TransacoesTest {
 	
 	@Autowired
 	private UsuarioService usuarioServiceImpl;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 	UsuarioModel usuarioModel1 = new UsuarioModel();
 	UsuarioModel usuarioModel2 = new UsuarioModel();
@@ -92,8 +97,24 @@ public class TransacoesTest {
 		assertEquals(new BigDecimal(190500).stripTrailingZeros(), usuarioOld.stripTrailingZeros());
 		assertEquals(new BigDecimal(5500).stripTrailingZeros(), beneficiarioOld.stripTrailingZeros());
 		assertEquals(new BigDecimal(190400).stripTrailingZeros(), usuarioNew.stripTrailingZeros());
-		assertEquals(new BigDecimal(5600).stripTrailingZeros(), beneficiarioNew.stripTrailingZeros());
+		assertEquals(new BigDecimal(5600).stripTrailingZeros(), beneficiarioNew.stripTrailingZeros());	
+	}
+	@Test
+	public void testandoPagamento() {
 		
+		Long idUsuario = 2L;
+		Long idPagamento = 1L;
+	
+		PagamentoModel obterPagamentoId = pagamentoRepository.obterPagamentoId(idPagamento);
+		
+		BigDecimal valorTotal = obterPagamentoId.getValorTotal();
+		
+		BigDecimal obterSaldoOld = contaServiceImpl.obterSaldo(idUsuario);
+		transacoesServiceImpl.pagamento(idUsuario, idPagamento, valorTotal);
+		BigDecimal obterSaldoNew = contaServiceImpl.obterSaldo(idUsuario);
+		
+		assertEquals(new BigDecimal(5500).stripTrailingZeros(), obterSaldoOld.stripTrailingZeros());
+		assertEquals(new BigDecimal(5460).stripTrailingZeros(), obterSaldoNew.stripTrailingZeros());
 	}
 	
 	

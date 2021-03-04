@@ -20,4 +20,5 @@ PagamentoModel obterTodosParcelados();
 @Query("SELECT pm FROM PagamentoModel pm WHERE pm.idPag = :idPag ")
 PagamentoModel obterPagamentoId(@Param("idPag") Long idPag);
 
+
 }
