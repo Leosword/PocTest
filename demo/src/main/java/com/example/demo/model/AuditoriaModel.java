@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,8 +36,8 @@ public class AuditoriaModel {
 	private Date data;
 
 	@Column(name = "hora", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date Hora;
+	@Temporal(TemporalType.TIME)
+	private Date hora;
 
 	@Column(name = "valor", nullable = false)
 	private BigDecimal valor;
