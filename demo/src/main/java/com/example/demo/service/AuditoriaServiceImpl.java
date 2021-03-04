@@ -7,7 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.enums.TipoDeTransacoesEnums;
 import com.example.demo.model.AuditoriaModel;
+import com.example.demo.model.TipoTransacaoModel;
+import com.example.demo.model.TransacoesModel;
+import com.example.demo.model.UsuarioModel;
 import com.example.demo.repository.AuditoriaRepository;
 import com.example.demo.repository.TransacoesReporsitory;
 import com.example.demo.repository.UsuarioRepository;
@@ -21,30 +25,40 @@ public class AuditoriaServiceImpl implements AuditoriaService {
 	private UsuarioRepository usuarioRepository;
 	@Autowired
 	private TransacoesReporsitory transacoesRepository;
-	
-	@Autowired
-	private TransacoesService transacoesService;
 
-	
-	public List<AuditoriaModel>consultarTudo(String acao, Long idUsuario,Date data,Date hora) {
-	
-		List<AuditoriaModel> obterTodos = new ArrayList<>();
-		List<AuditoriaModel> obterAcao = auditoriaRepository.obterPorAcao(acao);
-		obterTodos.addAll(obterAcao);
-		List<AuditoriaModel>obterAcaoDataHora = auditoriaRepository.obterPorAcaoDataHora(acao, data, hora);
-		
-		return obterTodos;
+	public List<TransacoesModel> consultarTransacoesPorData(Long idUsuario, Date data) {
+
+		List<TransacoesModel> obterTrasacoesIdUsuario = transacoesRepository.obterTrasacoesIdUsuario(idUsuario);
+
+		List<TransacoesModel> transacoesUsuario = new ArrayList<TransacoesModel>();
+
+		for (TransacoesModel transacoesModel : obterTrasacoesIdUsuario) {
+
+			if (transacoesModel.getDataTransacao().equals(data)) {
+
+				transacoesUsuario.add(transacoesModel);
+			}
+
+		}
+		return transacoesUsuario;
 	}
 
+	public List<TransacoesModel> consultarTipoTransacoesPoridUsuario(Long idUsuario, Long idTipoTransacao) {
 
-	
-	
-	
-	
-				
-	
-	
-	
-	
-	
+		List<TransacoesModel> tipoTransacoes = transacoesRepository.obterTrasacoesIdUsuario(idUsuario);
+
+		List<TransacoesModel> transacoes = new ArrayList<TransacoesModel>();
+
+		for (TransacoesModel transacoesModel : tipoTransacoes) {
+
+			if (transacoesModel.getTipdeDeTransacaoModel().getIdTipoTransacao().equals(idTipoTransacao)) {
+
+				transacoes.add(transacoesModel);
+			}
+
+		}
+
+		return transacoes;
+
+	}
 }

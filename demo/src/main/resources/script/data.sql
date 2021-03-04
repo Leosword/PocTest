@@ -1,6 +1,8 @@
+INSERT INTO db_banco.usuario_model values (1,'Jardim Oreiaça','33333-333','Oreiacity','111.111.111-11','2001-05-22','Oreia Antony Jonathan', 'Oreiopollis', 'Tonho Oreia', '11.111.111-1','(11)91111-1111',1);
 INSERT INTO db_banco.usuario_model values (2,'Jipão das Oliveiras','11111-111','JipaCitY','222.222.222-22','1990-10-12','R.Jipão da Depressão', 'Jipóllis', 'Jipão', '22.222.222-2','(11)92222-2222',2);
 INSERT INTO db_banco.usuario_model values (3,'Baixinho da Depressão','22222-222','DepressoCitY','333.333.333-33','1995-01-23','R.Depresso Souza Cruz', 'Depressence', 'Depresso', '33.333.333-3','(11)93333-3333',3);
-INSERT INTO db_banco.conta_model values (2,"2222-1","22222222-1", 5500.00, 1);
+INSERT INTO db_banco.conta_model values (1,"1111-1","11111111-1", 9400.00, 2);
+INSERT INTO db_banco.conta_model values (2,"2222-1","22222222-1", 5500.00, 3);
 INSERT INTO db_banco.conta_model values (3,"3333-1","33333333-1", 190500.00, 1);
 INSERT INTO db_banco.produto_model values (1,1,3);
 INSERT INTO db_banco.produto_model values (2,2,5);

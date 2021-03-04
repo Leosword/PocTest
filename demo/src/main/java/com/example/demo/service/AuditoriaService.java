@@ -10,8 +10,8 @@ import com.example.demo.model.UsuarioModel;
 
 public interface AuditoriaService {
 
-	public List<AuditoriaModel>consultarTudo(String acao, Long idUsuario,Date data,Date hora);
 	
+	List<TransacoesModel> consultarTransacoesPorData( Long idUsuario, Date data);
 	
-	
+	List<TransacoesModel> consultarTipoTransacoesPoridUsuario(Long idUsuario,Long idTipoTransacao);
 }
